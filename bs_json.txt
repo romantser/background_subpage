@@ -56,8 +56,8 @@
         "settings": {
           "vnext": [
             {
-              "address": "188.72.111.35",
-              "port": 443,
+              "address": "181.72.111.35",
+              "port": 8443,
               "users": [
                 {
                   "encryption": "none",
