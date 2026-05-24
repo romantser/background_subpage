@@ -1,40 +1,119 @@
-{
-    "format": "Base64 (URL links)",
-    "count": 6,
-    "configs": [
-        {
-            "original": "vless://67f77436-90a3-499c-b232-22e4c8b04d25@188.72.111.35:443?encryption=none&flow=&type=ws&path=/stream/update/file/57e88a90-aba9-4bfe-9f92-2e51bc760ec9&security=tls&fp=chrome&sni=cdn.tracker.yandex.net#%F0%9F%9A%A8%F0%9F%93%B1%20%D0%90%D0%BD%D1%82%D0%B8-%D0%B3%D0%BB%D1%83%D1%88%D0%B8%D0%BB%D0%BA%D0%B0%20%236",
-            "decoded": {
-                "tag": "Подписка отключена",
-                "protocol": "vless",
-                "settings": {
-                    "vnext": [
-                        {
-                            "address": "188.72.111.35",
-                            "port": 443,
-                            "users": [
-                                {
-                                    "id": "67f77436-90a3-499c-b232-22e4c8b04d25",
-                                    "encryption": "none",
-                                    "level": 0
-                                }
-                            ]
-                        }
-                    ]
-                },
-                "streamSettings": {
-                    "network": "ws",
-                    "security": "tls",
-                    "tlsSettings": {
-                        "serverName": "cdn.tracker.yandex.net",
-                        "fingerprint": "chrome"
-                    },
-                    "wsSettings": {
-                        "path": "/stream/update/file/57e88a90-aba9-4bfe-9f92-2e51bc760ec9",
-                        "headers": {}
-                    }
+[
+  {
+    "dns": {
+      "queryStrategy": "UseIP",
+      "servers": [
+        "https://8.8.8.8/dns-query"
+      ]
+    },
+    "inbounds": [
+      {
+        "listen": "127.0.0.1",
+        "port": 10808,
+        "protocol": "socks",
+        "settings": {
+          "auth": "noauth",
+          "udp": true
+        },
+        "sniffing": {
+          "destOverride": [
+            "http",
+            "tls",
+            "quic"
+          ],
+          "enabled": true,
+          "routeOnly": false
+        },
+        "tag": "socks"
+      },
+      {
+        "listen": "127.0.0.1",
+        "port": 10809,
+        "protocol": "http",
+        "settings": {
+          "allowTransparent": false
+        },
+        "sniffing": {
+          "destOverride": [
+            "http",
+            "tls",
+            "quic"
+          ],
+          "enabled": true,
+          "routeOnly": false
+        },
+        "tag": "http"
+      }
+    ],
+    "log": {
+      "access": "/private/var/mobile/Containers/Shared/AppGroup/076E5A22-43AA-439A-8662-47B83471915A/Library/Application Support/Xray/logs/access.log",
+      "dnsLog": true,
+      "loglevel": "Warning"
+    },
+    "outbounds": [
+      {
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "188.72.111.35",
+              "port": 443,
+              "users": [
+                {
+                  "encryption": "none",
+                  "flow": "",
+                  "id": "89d77436-90a3-499c-b232-22e4c8b04g36"
                 }
+              ]
             }
+          ]
+        },
+        "streamSettings": {
+          "network": "ws",
+          "security": "tls",
+          "tlsSettings": {
+            "allowInsecure": true,
+            "fingerprint": "chrome",
+            "serverName": "cdn.tracker.yandex.net"
+          },
+          "wsSettings": {
+            "headers": {
+              "Host": "cdn.turborace.space"
+            },
+            "path": "/stream/update/file/57e88a90-aba9-4bfe-9f92-2e51bc760ec9"
+          }
+        },
+        "tag": "proxy"
+      },
+      {
+        "protocol": "freedom",
+        "tag": "direct"
+      },
+      {
+        "protocol": "blackhole",
+        "tag": "block"
+      }
+    ],
+    "remarks": "🇷🇺 Обход глушилок",
+    "routing": {
+      "domainMatcher": "hybrid",
+      "domainStrategy": "IPIfNonMatch",
+      "rules": [
+        {
+          "domain": [
+            "geosite:category-ru"
+          ],
+          "outboundTag": "direct",
+          "type": "field"
+        },
+        {
+          "outboundTag": "direct",
+          "protocol": [
+            "bittorrent"
+          ],
+          "type": "field"
         }
-    ]
-}
+      ]
+    }
+  }
+]
